@@ -4,7 +4,8 @@ const app=express();
 
 // app.get will only handle get call to  /user
 
-app.get("/user",(req,res)=>{
+app.get("/user/:userId",(req,res)=>{
+    console.log(req.params)
     res.send({firstName:"Harshit",lastName:"Kharayat",city:"Pithoragarh"})
 })
 app.post("/user",(req,res)=>{
