@@ -4,18 +4,20 @@ const app=express();
 
 // app.get will only handle get call to  /user
 
-app.get("/user/:userId",(req,res)=>{
-    console.log(req.params)
-    res.send({firstName:"Harshit",lastName:"Kharayat",city:"Pithoragarh"})
-})
-app.post("/user",(req,res)=>{
-    res.send("successfully add the data to the database");
-})
+app.use("/user",(req,res,next)=>{
+    console.log("first route handler")
+    next();
+   res.send("First route Handler")
+    
+    
+},
+(req,res)=>{
+    console.log("second Router")
+    res.send("Second route handler");   
+}
 
-// app.use() will match all the http api method calls 
-app.use("/test",(req,res)=>{
-    res.send("Hello Aliens how are you doing");
-})
+
+);
 
 app.listen(3000,()=>{
     console.log("Successfully connected");
