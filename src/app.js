@@ -11,7 +11,7 @@ app.get("/admin/getData",(req,res,next)=>{
 })  
  
 app.get("/admin/deleteUser",(req,res)=>{
-    res.send("Deleted the user");
+    res.send("Deleted the user succesfully ");
 })
 
 app.get("/user",authUser,(req,res)=>{
