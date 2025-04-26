@@ -18,7 +18,7 @@ app.get("/user",authUser,(req,res)=>{
     res.send("Hi Harshit!");
 })
 app.post("/user/login",(req,res)=>{
-    res.send("Logged In Succesfully!");
+    res.send("Logged In Succesfully!!");
 })
 
 
