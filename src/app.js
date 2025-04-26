@@ -6,7 +6,7 @@ app.use("/admin",authAdmin)
 
 // app.get will only handle get call to  /user
 app.get("/admin/getData",(req,res,next)=>{
-    res.send("Successfully collected the user");
+    res.send("Successfully collected the user details");
    
 })  
  
