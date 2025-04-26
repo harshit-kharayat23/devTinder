@@ -60,6 +60,35 @@ app.get("/data",async(req,res)=>{
 
 
 })
+app.delete("/delete",async(req,res)=>{
+
+    const userId=req.body.userId;
+
+    try{
+
+        const user=await User.findByIdAndDelete(userId);
+        res.send("User deleted successfully!");
+
+    }catch(err){
+        res.status(400).send("Something went wrong!")
+    }
+})
+
+app.patch("/update",async(req,res)=>{
+    
+    const userId=req.body.userId;
+    try{
+        const user=await User.findOneAndUpdate({_id:userId},{lastName:'Kharayat'});
+        res.send("User updated succesfully!")
+
+
+    }catch(err){
+        res.status(400).send("Somthing went wrong!");
+    }
+
+
+
+})
 
 connectDB()
     .then(()=>{
