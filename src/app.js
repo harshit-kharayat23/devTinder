@@ -77,8 +77,12 @@ app.delete("/delete",async(req,res)=>{
 app.patch("/update",async(req,res)=>{
     
     const userId=req.body.userId;
+    const data=req.body;
     try{
-        const user=await User.findOneAndUpdate({_id:userId},{lastName:'Kharayat'});
+        const user=await User.findOneAndUpdate({_id:userId},data,{
+            runValidators:true,
+        });
+       
         res.send("User updated succesfully!")
 
 
