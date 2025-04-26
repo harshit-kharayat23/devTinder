@@ -1,39 +1,40 @@
 const express =require("express");
-const {authAdmin, authUser}=require("./middlewares/auth")
 const app=express();
+const User=require("./models/user")
+const {connectDB}=require("./config/database")
 
-app.use("/admin",authAdmin)
+app.post("/signup",async (req,res)=>{
 
-// app.get will only handle get call to  /user
-// app.get("/admin/getData",(req,res,next)=>{
-//     res.send("Successfully collected the user details");
-   
-// })  
- 
-
-// app.get("/user",authUser,(req,res)=>{
-//     res.send("Hi Harshit!");
-// })
-
-
-// handling Errors
-
-
-app.get("/getUserData",(req,res,next)=>{
-
+    // creating new instance of user model
+    const user=new User({
+        firstName:"Ram",
+        lastName:"Kharayat",
+        emailId:"Ramkharayat15@gmail.com",
+        password:"Jojo@2181",
+    });
     try{
-    throw new Error("----------error------");
-    res.send("user data found");
+    await user.save();
+    res.send("Data added Successfully!");
     }catch(err){
-        res.status(500).send("something went worng")
+        res.status(400).send("Error Saving the user"+ err.message);
     }
-    
+
+
+
 })
 
 
-
-app.listen(3000,()=>{
-    console.log("Successfully connected");
-    
+connectDB()
+    .then(()=>{
+        console.log("Database connected successfully")
+        app.listen(3000,()=>{
+            console.log("Successfully connected");
+            
+        });
+})
+    .catch(err=>{
+        console.log("Database cannot be connected!")
 });
 
+
+ 
