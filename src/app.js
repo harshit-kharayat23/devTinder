@@ -5,9 +5,12 @@ const {connectDB}=require("./config/database")
 const {validateSignUp}=require("./utils/validation")
 const bcrypt=require("bcrypt");
 const validator=require("validator")
+const cookieParser=require("cookie-parser");
+const jwt=require("jsonwebtoken")
+
 
 app.use(express.json())
-
+app.use(cookieParser())
 app.post("/signup",async (req,res)=>{
 
     // creating new instance of user model
@@ -140,8 +143,13 @@ app.post("/login",async(req,res)=>{
 
             const isvalidPass= await bcrypt.compare( password,user.password)
             if(isvalidPass){
-                
-                res.send("Logged In");
+                // createing a JWT token 
+                const token=jwt.sign({_id:user._id},"Harsh@2394")
+                // add the token inside the cookie
+                res.cookie("token",token) 
+
+
+                res.send("Logged In ");
             }
             else{
                 throw new Error("Password is Incorrect");
@@ -157,6 +165,32 @@ app.post("/login",async(req,res)=>{
 
 })
 
+app.get("/profile",async(req,res)=>{
+    const cookies=req.cookies;
+    const {token}=cookies;
+    
+    if(!token){
+        res.status(400).send('No token found');
+    }
+    try{
+
+        const decodedMessage=jwt.verify(token,"Harsh@2394");
+         
+
+         const { _id }=decodedMessage;
+         console.log("The logged in user is: ",_id);
+         const userInfo= await User.findById(_id);
+         if(!userInfo)
+            return res.status(404).send("User not found!");
+
+         console.log("User Info :",JSON.stringify(userInfo));
+         res.send("reading the cookie  token is valid .Payload :"+ JSON.stringify(decodedMessage));
+
+    }catch(err){
+        res.status(400).send('something went wrong!');
+    }
+    
+})
 connectDB()
     .then(()=>{
         console.log("Database connected successfully")
