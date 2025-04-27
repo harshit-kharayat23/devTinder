@@ -10,8 +10,12 @@ app.post("/signup",async (req,res)=>{
     // creating new instance of user model
     const user=new User(req.body);
     try{
+        if(user?.skills.length>10){
+            throw new Error("Dont add more than 10 skills!")
+           }
     await user.save();
     res.send("Data added Successfully!");
+    
     }catch(err){
         res.status(400).send("Error Saving the user"+ err.message);
     }
@@ -79,15 +83,24 @@ app.patch("/update",async(req,res)=>{
     const userId=req.body.userId;
     const data=req.body;
     try{
+        if(data?.skills.length>10){
+            throw new Error("Dont add more than 10 skills!")
+        }
         const user=await User.findOneAndUpdate({_id:userId},data,{
             runValidators:true,
         });
+        if(!user){
+            res.status(404).send("User not found!");
+        }
        
+        
+      
         res.send("User updated succesfully!")
 
 
     }catch(err){
-        res.status(400).send("Somthing went wrong!");
+        res.status(400).send(err.message || "Something went wrong!");
+
     }
 
 
