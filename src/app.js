@@ -3,6 +3,7 @@ const app=express();
 const User=require("./models/user")
 const {connectDB}=require("./config/database")
 
+
 app.use(express.json())
 
 app.post("/signup",async (req,res)=>{
@@ -10,6 +11,7 @@ app.post("/signup",async (req,res)=>{
     // creating new instance of user model
     const user=new User(req.body);
     try{
+        
         if(user?.skills.length>10){
             throw new Error("Dont add more than 10 skills!")
            }
@@ -17,7 +19,7 @@ app.post("/signup",async (req,res)=>{
     res.send("Data added Successfully!");
     
     }catch(err){
-        res.status(400).send("Error Saving the user"+ err.message);
+        res.status(400).send(err.message || "Something went wrong!");
     }
 
 
