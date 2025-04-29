@@ -11,6 +11,7 @@ const connectionReq=new moongose.Schema({
     toUserId:{
         type:moongose.Schema.Types.ObjectId,
         required:true,
+        ref:"User",
     }
     ,
     status:{

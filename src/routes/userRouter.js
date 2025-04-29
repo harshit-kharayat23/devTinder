@@ -46,12 +46,21 @@ userRouter.get("/user/connections",userAuth,async (req,res)=>{
                
             
             }
-        ).populate("fromUserId","firstName lastName age  skills")
+        ).populate("fromUserId","firstName lastName age  skills").populate("toUserId","firstName lastName age  skills")
         if(connections.length==0){
             return res.status(404).json({message:"No Connections found !"});
 
         }
-        const userConnections=connections.map((row)=>row.fromUserId);
+        const userConnections=connections.map((row)=>{
+            
+            if(row.fromUserId._id.toString()===loggedInUser._id.toString()){
+                return row.toUserId;
+            }
+           
+           return  row.fromUserId;
+        
+        
+        });
         res.json({
             message:"Connection Requests are :",
             data:userConnections,
