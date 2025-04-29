@@ -18,15 +18,12 @@ const userSchema= new mongoose.Schema({
         unique:true,
         lowercase:true,
         trim:true,
-        enum:{
-            values:["male","female","other"],
-            message:`{VALUE} is not valid gender type`
-        }
-        // validate(value){
-        //     if(!validator.isEmail(value)){
-        //         throw new Error("Invalid Email Id! adress "+value);
-        //     }
-        // },
+       
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Invalid Email Id! adress "+value);
+            }
+        },
     },
     password:{
         type:String,
@@ -49,10 +46,14 @@ const userSchema= new mongoose.Schema({
     gender:{
         type:String,
         lowercase:true,
-        validate(value){
-            if(!["male","female","other"].includes(value)){
-                throw new Error("Gender is not valid")
-            }
+        // validate(value){
+        //     if(!["male","female","other"].includes(value)){
+        //         throw new Error("Gender is not valid")
+        //     }
+        // }
+        enum:{
+            values:["male","female","other"],
+            message:`{VALUE} is not valid gender type`
         }
     },
     skills:{

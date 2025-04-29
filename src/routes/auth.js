@@ -10,13 +10,12 @@ const User=require("../models/user")
 authRouter.post("/signup",async (req,res)=>{
 
     // creating new instance of user model
-    const user=new User(req.body);
     try{
         // validation
         validateSignUp(req)
 
         // encryption of password
-        const {firstName,lastName,password,emailId}=req.body;
+        const {firstName,lastName,password,emailId,skills = [],age }=req.body;
         const hashPass =await bcrypt.hash(password,10);
         // creating a new instance of user
 
@@ -25,6 +24,9 @@ authRouter.post("/signup",async (req,res)=>{
             lastName,
             emailId,
             password:hashPass,
+            skills,
+            age
+    
         })
         console.log(hashPass);
 
