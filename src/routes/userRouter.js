@@ -81,6 +81,13 @@ userRouter.get("/user/connections",userAuth,async (req,res)=>{
 userRouter.get("/user/feed",userAuth,async(req,res)=>{
 
     try{
+        const page=parseInt(req.query.page)|| 1;
+        let limit=parseInt(req.query.limit) ||10;
+        limit=(limit>50)?50:limit;
+        
+        const skip=(page-1)*limit;
+
+
         const loggedInUser=req.user;
         // find all connection request either sent or recieved they should not be in the feed
         const connectionRequests=await ConnectionRequest.find({
@@ -103,7 +110,7 @@ userRouter.get("/user/feed",userAuth,async(req,res)=>{
                { _id:{$nin :Array.from(hideUsers)}},
                {_id:{$ne:loggedInUser._id}}
             ]
-        }).select(USER_SAFE_DATA)
+        }).select(USER_SAFE_DATA).limit(limit).skip(skip)
         
         res.send(feedUsers)
     
