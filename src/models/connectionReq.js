@@ -5,6 +5,7 @@ const connectionReq=new moongose.Schema({
     fromUserId:{
         type:moongose.Schema.Types.ObjectId,
         required:true,
+        ref:"User",
     }
     ,
     toUserId:{

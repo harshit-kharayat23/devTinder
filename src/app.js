@@ -7,7 +7,8 @@ const cookieParser=require("cookie-parser");
 
 const authRouter=require("./routes/auth")
 const reqRouter=require("./routes/requests")
-const profileRouter=require("./routes/profile")
+const profileRouter=require("./routes/profile");
+const userRouter = require("./routes/userRouter");
 
 
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use(cookieParser())
 app.use("/",authRouter);
 app.use("/",reqRouter)
 app.use("/",profileRouter);
+app.use("/",userRouter)
 // get user by email
 app.get("/getData",async(req,res)=>{
 
