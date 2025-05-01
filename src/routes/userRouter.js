@@ -47,7 +47,7 @@ userRouter.get("/user/connections",userAuth,async (req,res)=>{
                
             
             }
-        ).populate("fromUserId","firstName lastName age  skills").populate("toUserId","firstName lastName age  skills")
+        ).populate("fromUserId","firstName lastName age  skills photoUrl").populate("toUserId","firstName lastName age  skills photoUrl")
         if(connections.length==0){
             return res.status(404).json({message:"No Connections found !"});
 
@@ -99,7 +99,7 @@ userRouter.get("/user/feed",userAuth,async(req,res)=>{
         }).select("toUserId fromUserId")
 
         const hideUsers=new Set();
-        const USER_SAFE_DATA="firstName lastName age skills"
+        const USER_SAFE_DATA="firstName lastName age skills photoUrl"
         connectionRequests.forEach((id)=>{
             hideUsers.add(id.fromUserId.toString());
             hideUsers.add(id.toUserId.toString());

@@ -9,11 +9,11 @@ const bcrypt=require("bcrypt")
 profileRouter.get("/profile/view",userAuth,async(req,res)=>{
     try{
         const user=req.user;
-        console.log("User Info :",JSON.stringify(user));
-        res.send("reading the cookie  token is valid"+user);
+
+        res.send(user);
 
     }catch(err){
-        res.status(400).send('something went wrong!' +err.message);
+        res.status(401).send('Please Login!' +err.message);
     }  
     
 })
@@ -29,7 +29,10 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
 
                 Object.keys(req.body).forEach((key)=> loggedInUser[key]=req.body[key])
                 await loggedInUser.save();
-                res.send("Profile edited Successfully!")
+              res.json({
+                message:`${loggedInUser.firstName},your profile edited Successfully!`,
+                data:{loggedInUser}
+              })
 
 
 

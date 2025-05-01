@@ -15,7 +15,7 @@ authRouter.post("/signup",async (req,res)=>{
         validateSignUp(req)
 
         // encryption of password
-        const {firstName,lastName,password,emailId,skills = [],age }=req.body;
+        const {firstName,lastName,password,emailId,skills = [],age,photoUrl ,about}=req.body;
         const hashPass =await bcrypt.hash(password,10);
         // creating a new instance of user
 
@@ -25,7 +25,10 @@ authRouter.post("/signup",async (req,res)=>{
             emailId,
             password:hashPass,
             skills,
-            age
+            age,
+            photoUrl,
+            about,
+
     
         })
         console.log(hashPass);
@@ -53,7 +56,7 @@ authRouter.post("/login",async(req,res)=>{
             }
             const user= await User.findOne({emailId:emailId})
             if(!user){
-                throw new Error("User Does not Exist with this email : ",emailId);
+                throw new Error("User Does not Exist with this email !  ",emailId);
             }
 
             const isvalidPass= await bcrypt.compare( password,user.password)
@@ -64,10 +67,10 @@ authRouter.post("/login",async(req,res)=>{
                 res.cookie("token",token) 
 
 
-                res.send("Logged In ");
+                res.send(user);
             }
             else{
-                throw new Error("Password is Incorrect");
+                throw new Error("Password is Incorrect!");
             }
 
 
