@@ -13,7 +13,7 @@ userRouter.get("/user/requests/recieved",userAuth,async(req,res)=>{
             toUserId:loggedUser._id,
             status:"interested",
         
-        }).populate("fromUserId",["firstName","lastName"]);
+        }).populate("fromUserId",["firstName", "lastName", "about", "photoUrl", "age" ,"gender" ,"skills"]);
         if(requests.length==0){
             return res.status(400).json({message:"No request Found !"})
         }
@@ -47,7 +47,7 @@ userRouter.get("/user/connections",userAuth,async (req,res)=>{
                
             
             }
-        ).populate("fromUserId","firstName lastName age  skills photoUrl").populate("toUserId","firstName lastName age  skills photoUrl")
+        ).populate("fromUserId","firstName lastName age  skills photoUrl about").populate("toUserId","firstName lastName age  skills photoUrl about")
         if(connections.length==0){
             return res.status(404).json({message:"No Connections found !"});
 
@@ -99,12 +99,12 @@ userRouter.get("/user/feed",userAuth,async(req,res)=>{
         }).select("toUserId fromUserId")
 
         const hideUsers=new Set();
-        const USER_SAFE_DATA="firstName lastName age skills photoUrl"
+        const USER_SAFE_DATA="firstName lastName age skills photoUrl about"
         connectionRequests.forEach((id)=>{
             hideUsers.add(id.fromUserId.toString());
             hideUsers.add(id.toUserId.toString());
         })
-        console.log(hideUsers);
+
         const feedUsers=await User.find({
             $and:[
                { _id:{$nin :Array.from(hideUsers)}},
