@@ -6,8 +6,8 @@ const authAdmin=(req,res,next)=>{
     const token="xyz";
     const isAuthorized= token ==="xyz"
     if(!isAuthorized){
-        res.status(401).send("Unauthorised User");
-    }else
+       return  res.status(401).send("Unauthorised User");
+    }
     next();
 }
 
@@ -16,8 +16,8 @@ const authUser=(req,res,next)=>{
     const token="xyz";
     const isAuthorized= token ==="xyz"
     if(!isAuthorized){
-        res.status(401).send("Unauthorised User");
-    }else
+        return res.status(401).send("Unauthorised User");
+    }
     next();
 }
 
@@ -27,13 +27,13 @@ const userAuth=async(req,res,next)=>{
         const cookies=req.cookies;
         const {token}=cookies;
         if(!token)
-            res.status(401).send("Please Login!")
+            return res.status(401).send("Please Login!")
         const decodedData= await jwt.verify(token,"Harsh@2394");
         const {_id}=decodedData;
       
         const user=await User.findById(_id);
         if(!user){
-            res.status(400).send("user not found!")
+            return res.status(400).send("user not found!")
         }
         req.user=user;
         next();
