@@ -1,1 +1,25 @@
-/node_modules
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# PM2 logs (optional, if you log to files)
+pids/
+*.pid
+*.seed
+
+# Build outputs (if any)
+dist/
+build/
+
+# OS system files
+.DS_Store
+
+# VSCode settings (optional)
+.vscode/

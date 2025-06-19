@@ -1,5 +1,5 @@
 const jwt=require("jsonwebtoken")
-
+require("dotenv").config()
 const User=require("../models/user")
 const authAdmin=(req,res,next)=>{
     console.log("admin auth is getting checked")
@@ -28,7 +28,7 @@ const userAuth=async(req,res,next)=>{
         const {token}=cookies;
         if(!token)
             return res.status(401).send("Please Login!")
-        const decodedData= await jwt.verify(token,"Harsh@2394");
+        const decodedData= await jwt.verify(token,process.env.JWT_SECRET);
         const {_id}=decodedData;
       
         const user=await User.findById(_id);
