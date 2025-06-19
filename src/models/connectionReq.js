@@ -17,7 +17,7 @@ const connectionReq=new moongose.Schema({
     status:{
         type:String,
         enum:{
-            values:["ignord","interested","accepted","rejected"],
+            values:["ignored","interested","accepted","rejected"],
             message:`{VALUE} is incorrect status`,
         }
         , required:true,

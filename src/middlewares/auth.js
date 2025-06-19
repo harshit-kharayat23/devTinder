@@ -30,7 +30,7 @@ const userAuth=async(req,res,next)=>{
             res.status(401).send("Please Login!")
         const decodedData= await jwt.verify(token,"Harsh@2394");
         const {_id}=decodedData;
-    
+      
         const user=await User.findById(_id);
         if(!user){
             res.status(400).send("user not found!")

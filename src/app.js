@@ -46,24 +46,7 @@ app.get("/getData",async(req,res)=>{
 
 })
 
-// get all users from the db
-app.get("/data",async(req,res)=>{
-
-    try{
-        const users= await User.find({});
-        if(users.length===0)
-            res.status(400).send("No Users found");
-        else{
-            res.send(users);
-        }
-    }
-    catch(err){
-        res.status(400).send("Something went wrong");
-    }
-    
-
-
-})
+ 
 app.delete("/delete",async(req,res)=>{
 
     const userId=req.body.userId;

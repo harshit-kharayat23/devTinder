@@ -37,8 +37,11 @@ authRouter.post("/signup",async (req,res)=>{
         if(user?.skills.length>10){
             throw new Error("Dont add more than 10 skills!")
            }
-    await user.save();
-    res.send("Data added Successfully!");
+        const savedUser=await user.save();
+        const token=jwt.sign({_id:savedUser._id},"Harsh@2394",{expiresIn:"2d"})
+                res.cookie("token",token) 
+            
+        res.json({message:"Data added Successfully!",data:savedUser});
     
     }catch(err){
         res.status(400).send(err.message || "Something went wrong!");
