@@ -9,6 +9,7 @@ const authRouter=require("./routes/auth")
 const reqRouter=require("./routes/requests")
 const profileRouter=require("./routes/profile");
 const userRouter = require("./routes/userRouter");
+const paymentRouter=require("./routes/payment")
 const cors=require("cors")
 require("dotenv").config();
 
@@ -26,7 +27,8 @@ app.use(cookieParser())
 app.use("/",authRouter);
 app.use("/",reqRouter)
 app.use("/",profileRouter);
-app.use("/",userRouter)
+app.use("/",userRouter);
+app.use("/",paymentRouter);
 // get user by email
 app.get("/getData",async(req,res)=>{
 

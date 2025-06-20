@@ -43,6 +43,14 @@ const userSchema= new mongoose.Schema({
         min:18,
         
     },
+    isPremium:{
+        type:Boolean,
+        default:false,
+    },
+    membershipType:{
+        type:String,
+        
+    },
     gender:{
         type:String,
         lowercase:true,
