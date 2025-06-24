@@ -3,6 +3,8 @@ const app=express();
 const User=require("./models/user")
 const {connectDB}=require("./config/database")
 const cookieParser=require("cookie-parser");
+const http=require("http");
+
 
 
 const authRouter=require("./routes/auth")
@@ -10,7 +12,8 @@ const reqRouter=require("./routes/requests")
 const profileRouter=require("./routes/profile");
 const userRouter = require("./routes/userRouter");
 const paymentRouter=require("./routes/payment")
-const cors=require("cors")
+const cors=require("cors");
+const { initializeSocket } = require("./utils/SOCKET.JS");
 require("dotenv").config();
 
 app.use(cors({
@@ -95,12 +98,14 @@ app.patch("/update",async(req,res)=>{
 })
 
 
+const server=http.createServer(app);
+initializeSocket(server);
 
 
 connectDB()
     .then(()=>{
         console.log("Database connected successfully")
-        app.listen(process.env.PORT_NUMBER,()=>{
+        server.listen(process.env.PORT_NUMBER,()=>{
             console.log("Successfully connected");
             
         });
