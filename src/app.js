@@ -12,6 +12,7 @@ const reqRouter=require("./routes/requests")
 const profileRouter=require("./routes/profile");
 const userRouter = require("./routes/userRouter");
 const paymentRouter=require("./routes/payment")
+const chatRouter=require("./routes/chat")
 const cors=require("cors");
 const { initializeSocket } = require("./utils/SOCKET.JS");
 require("dotenv").config();
@@ -32,6 +33,7 @@ app.use("/",reqRouter)
 app.use("/",profileRouter);
 app.use("/",userRouter);
 app.use("/",paymentRouter);
+app.use("/",chatRouter);
 // get user by email
 app.get("/getData",async(req,res)=>{
 

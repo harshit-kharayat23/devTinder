@@ -1,3 +1,5 @@
+const Chat=require("../models/chat")
+
 const socket=require("socket.io")
 const cors=require("cors");
 exports.initializeSocket=(server)=>{
@@ -12,7 +14,7 @@ exports.initializeSocket=(server)=>{
     io.on("connection",(socket)=>{
         // handle events
 
-        socket.on("joinChat",({targetUserId,userId,firstName})=>{
+        socket.on("joinChat",({targetUserId,userId,firstName,lastName})=>{
             // create a room 
             const roomId=[userId,targetUserId].sort().join('_')
             console.log(firstName +" Joined Room",roomId);
@@ -20,10 +22,33 @@ exports.initializeSocket=(server)=>{
 
         })
 
-        socket.on("sendMessage",({firstName,text,userId,targetUserId})=>{
-            const roomId=[userId,targetUserId].sort().join('_');
-            console.log(firstName +": "+text);
-            io.to(roomId).emit("messageRecieved",{firstName,text})
+        socket.on("sendMessage",async({firstName,text,userId,targetUserId,lastName})=>{
+           
+        
+            try{
+                 const roomId=[userId,targetUserId].sort().join('_');
+                    console.log(firstName +": "+text);
+                    // save the data in the data base
+                    let chat=await Chat.findOne({
+                        participants:{$all:[userId,targetUserId]},
+                    });
+                    if(!chat){
+                        chat=new Chat({
+                            participants:[userId,targetUserId],
+                            messages:[],
+                        })
+                    }
+                    chat.messages.push({
+                        senderId:userId,
+                        text,
+                    })
+                    await chat.save();
+
+                 io.to(roomId).emit("messageRecieved",{firstName,text,lastName})
+            }catch(err){
+                console.log(err);
+            }
+           
 
 
         })
