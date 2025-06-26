@@ -14,7 +14,7 @@ const userRouter = require("./routes/userRouter");
 const paymentRouter=require("./routes/payment")
 const chatRouter=require("./routes/chat")
 const cors=require("cors");
-const { initializeSocket } = require("./utils/SOCKET.JS");
+const { initializeSocket } = require("./utils/socket1.js");
 require("dotenv").config();
 
 app.use(cors({
