@@ -123,7 +123,7 @@ paymentRouter.get("/premium/verify",userAuth,async(req,res)=>{
 
     try{
         const user=req.user;
-        console.log(user)
+
         if(user.isPremium){
             return res.status(200).json({
                 sucess:true,

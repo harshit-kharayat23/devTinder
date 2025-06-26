@@ -17,7 +17,7 @@ exports.initializeSocket=(server)=>{
         socket.on("joinChat",({targetUserId,userId,firstName,lastName})=>{
             // create a room 
             const roomId=[userId,targetUserId].sort().join('_')
-            console.log(firstName +" Joined Room",roomId);
+
             socket.join(roomId);
 
         })
@@ -27,7 +27,7 @@ exports.initializeSocket=(server)=>{
         
             try{
                  const roomId=[userId,targetUserId].sort().join('_');
-                    console.log(firstName +": "+text);
+
                     // save the data in the data base
                     let chat=await Chat.findOne({
                         participants:{$all:[userId,targetUserId]},

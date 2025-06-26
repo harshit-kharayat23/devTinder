@@ -31,7 +31,7 @@ authRouter.post("/signup",async (req,res)=>{
 
     
         })
-        console.log(hashPass);
+
 
 
         if(user?.skills.length>10){

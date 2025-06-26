@@ -2,7 +2,7 @@ const jwt=require("jsonwebtoken")
 require("dotenv").config()
 const User=require("../models/user")
 const authAdmin=(req,res,next)=>{
-    console.log("admin auth is getting checked")
+
     const token="xyz";
     const isAuthorized= token ==="xyz"
     if(!isAuthorized){
@@ -12,7 +12,7 @@ const authAdmin=(req,res,next)=>{
 }
 
 const authUser=(req,res,next)=>{
-    console.log("admin auth is getting checked")
+
     const token="xyz";
     const isAuthorized= token ==="xyz"
     if(!isAuthorized){
