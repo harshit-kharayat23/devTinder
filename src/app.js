@@ -19,7 +19,7 @@ require("dotenv").config();
 
 app.use(cors({
     
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials:true,
     optionSuccessStatus:200
 }))
@@ -107,10 +107,13 @@ initializeSocket(server);
 connectDB()
     .then(()=>{
         console.log("Database connected successfully")
-        server.listen(process.env.PORT_NUMBER,()=>{
-            console.log("Successfully connected");
-            
-        });
+        const PORT = process.env.PORT_NUMBER || 3000;
+
+server.listen(PORT, "0.0.0.0", () => {
+    console.log("Backend running on port", PORT);
+});
+
+    
 })
     .catch(err=>{
         console.log("Database cannot be connected!")
